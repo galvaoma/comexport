@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name="ACCOUNTY_ENTRY")
@@ -21,7 +23,11 @@ public class AccountEntryEntity implements Serializable {
     @Id
     @Column(name="ACCOUNT_ID")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long accountId;
+    private UUID accountId;
+
+    @Version
+    @NotNull
+    private Long version;
 
     @Column(name="ACCOUNT_NUMBER")
     private Long accountNumber;
@@ -36,16 +42,24 @@ public class AccountEntryEntity implements Serializable {
 
     }
 
-    public AccountEntryEntity(Long id) {
+    public AccountEntryEntity(UUID id) {
         this.accountId = id;
     }
 
-    public Long getAccountId() {
+    public UUID getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Long accountId) {
+    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Long getAccountNumber() {

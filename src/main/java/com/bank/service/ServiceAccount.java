@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -58,7 +59,7 @@ public class ServiceAccount {
 
     }
 
-    public AccountEntryEntity getAccountEntryById(long id)  throws Exception{
+    public AccountEntryEntity getAccountEntryById(UUID id)  throws Exception{
 
 
         Optional.ofNullable(id).orElseThrow(() -> new Exception("Id informado invalido"));

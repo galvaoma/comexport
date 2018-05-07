@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -47,7 +48,7 @@ public class ContaController {
     @ApiOperation(value = "Busca lancamento contabil por id")
     @RequestMapping(value = "/lancamentos-contabeis/{id}",  method = GET)
     @ResponseBody
-    public ResponseEntity<?> buscaLancamentoContabil(@PathVariable Long id) {
+    public ResponseEntity<?> buscaLancamentoContabil(@PathVariable UUID id) {
 
         AccountEntryEntity entity;
 
@@ -57,7 +58,13 @@ public class ContaController {
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity(entity, HttpStatus.OK);
+
+        return ResponseEntity
+                .ok()
+                .eTag("\"" + entity.getVersion() + "\"")
+                .body(entity);
+
+      //  return new ResponseEntity(entity, HttpStatus.OK).eTag;
     }
 
     @ApiOperation(value = "Busca lancamento contabil por conta contabil")
@@ -78,7 +85,7 @@ public class ContaController {
     }
 
     @ApiOperation(value = "Busca estatistica do lancamento contabil")
-    @RequestMapping(value = "/lancamentos-contabeis/_stat",  method = GET)
+    @RequestMapping(value = "/lancamentos-contabeis/_stats",  method = GET)
     @ResponseBody
     public ResponseEntity<?> buscaLancamentoContabilStats() {
 
